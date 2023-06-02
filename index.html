@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/Farmboundaries60093ha_2.js"></script>
+        <script src="data/Infrastructure5528ha_3.js"></script>
+        <script src="data/LotsDTT60098ha_4.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:26, minZoom:13
+        }).fitBounds([[32.03635343377303,-3.2466062143096606],[32.05753211603866,-3.2124408627116816]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            map.setMaxBounds(map.getBounds());
+        }
+        map.createPane('pane_OpenTopoMap_0');
+        map.getPane('pane_OpenTopoMap_0').style.zIndex = 400;
+        var layer_OpenTopoMap_0 = L.tileLayer('https://a.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OpenTopoMap_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">Kartendaten: © OpenStreetMap-Mitwirkende, SRTM | Kartendarstellung: © OpenTopoMap (CC-BY-SA)</a>',
+            minZoom: 13,
+            maxZoom: 26,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_OpenTopoMap_0;
+        map.addLayer(layer_OpenTopoMap_0);
+        map.createPane('pane_ESRISatellite_1');
+        map.getPane('pane_ESRISatellite_1').style.zIndex = 401;
+        var layer_ESRISatellite_1 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            pane: 'pane_ESRISatellite_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 13,
+            maxZoom: 26,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_ESRISatellite_1;
+        map.addLayer(layer_ESRISatellite_1);
+        function pop_Farmboundaries60093ha_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID_1</th>\
+                        <td>' + (feature.properties['OBJECTID_1'] !== null ? autolinker.link(feature.properties['OBJECTID_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AREA_ha</th>\
+                        <td>' + (feature.properties['AREA_ha'] !== null ? autolinker.link(feature.properties['AREA_ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Farmboundaries60093ha_2_0() {
+            return {
+                pane: 'pane_Farmboundaries60093ha_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Farmboundaries60093ha_2');
+        map.getPane('pane_Farmboundaries60093ha_2').style.zIndex = 402;
+        map.getPane('pane_Farmboundaries60093ha_2').style['mix-blend-mode'] = 'normal';
+        var layer_Farmboundaries60093ha_2 = new L.geoJson(json_Farmboundaries60093ha_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Farmboundaries60093ha_2',
+            layerName: 'layer_Farmboundaries60093ha_2',
+            pane: 'pane_Farmboundaries60093ha_2',
+            onEachFeature: pop_Farmboundaries60093ha_2,
+            style: style_Farmboundaries60093ha_2_0,
+        });
+        bounds_group.addLayer(layer_Farmboundaries60093ha_2);
+        map.addLayer(layer_Farmboundaries60093ha_2);
+        function pop_Infrastructure5528ha_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">OBJECTID</th>\
+                        <td>' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TYPE</th>\
+                        <td>' + (feature.properties['TYPE'] !== null ? autolinker.link(feature.properties['TYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AREA_ha</th>\
+                        <td>' + (feature.properties['AREA_ha'] !== null ? autolinker.link(feature.properties['AREA_ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Infrastructure5528ha_3_0(feature) {
+            switch(String(feature.properties['TYPE'])) {
+                case 'Reservoir':
+                    return {
+                pane: 'pane_Infrastructure5528ha_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Roads':
+                    return {
+                pane: 'pane_Infrastructure5528ha_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,28,2,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Solar field':
+                    return {
+                pane: 'pane_Infrastructure5528ha_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(244,249,16,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Undetermined':
+                    return {
+                pane: 'pane_Infrastructure5528ha_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,190,190,0.7)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Infrastructure5528ha_3');
+        map.getPane('pane_Infrastructure5528ha_3').style.zIndex = 403;
+        map.getPane('pane_Infrastructure5528ha_3').style['mix-blend-mode'] = 'normal';
+        var layer_Infrastructure5528ha_3 = new L.geoJson(json_Infrastructure5528ha_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Infrastructure5528ha_3',
+            layerName: 'layer_Infrastructure5528ha_3',
+            pane: 'pane_Infrastructure5528ha_3',
+            onEachFeature: pop_Infrastructure5528ha_3,
+            style: style_Infrastructure5528ha_3_0,
+        });
+        bounds_group.addLayer(layer_Infrastructure5528ha_3);
+        map.addLayer(layer_Infrastructure5528ha_3);
+        function pop_LotsDTT60098ha_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SECTION'] !== null ? autolinker.link(feature.properties['SECTION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HYD_SECTIO'] !== null ? autolinker.link(feature.properties['HYD_SECTIO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['IRR_VALVE'] !== null ? autolinker.link(feature.properties['IRR_VALVE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LOT</th>\
+                        <td>' + (feature.properties['LOT'] !== null ? autolinker.link(feature.properties['LOT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CROP</th>\
+                        <td>' + (feature.properties['CROP'] !== null ? autolinker.link(feature.properties['CROP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">VARIETY</th>\
+                        <td>' + (feature.properties['VARIETY'] !== null ? autolinker.link(feature.properties['VARIETY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">P_DATE</th>\
+                        <td>' + (feature.properties['P_DATE'] !== null ? autolinker.link(feature.properties['P_DATE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">DATE</th>\
+                        <td>' + (feature.properties['DATE'] !== null ? autolinker.link(feature.properties['DATE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ARRENGEMEN</th>\
+                        <td>' + (feature.properties['ARRENGEMEN'] !== null ? autolinker.link(feature.properties['ARRENGEMEN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">NUM_PLANTS</th>\
+                        <td>' + (feature.properties['NUM_PLANTS'] !== null ? autolinker.link(feature.properties['NUM_PLANTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AREA_ha</th>\
+                        <td>' + (feature.properties['AREA_ha'] !== null ? autolinker.link(feature.properties['AREA_ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LotsDTT60098ha_4_0(feature) {
+            switch(String(feature.properties['VARIETY'])) {
+                case 'Amandier':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,143,128,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Arbequina':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(15,225,123,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Arbosana':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(224,221,58,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Bouffegous':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(244,249,193,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Koroneiki':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(92,66,238,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Males':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(214,60,139,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Mejhoul':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,194,246,0.7)',
+                interactive: true,
+            }
+                    break;
+                case 'Nejda':
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(192,19,231,0.7)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LotsDTT60098ha_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.7)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(148,71,33,0.7)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LotsDTT60098ha_4');
+        map.getPane('pane_LotsDTT60098ha_4').style.zIndex = 404;
+        map.getPane('pane_LotsDTT60098ha_4').style['mix-blend-mode'] = 'normal';
+        var layer_LotsDTT60098ha_4 = new L.geoJson(json_LotsDTT60098ha_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LotsDTT60098ha_4',
+            layerName: 'layer_LotsDTT60098ha_4',
+            pane: 'pane_LotsDTT60098ha_4',
+            onEachFeature: pop_LotsDTT60098ha_4,
+            style: style_LotsDTT60098ha_4_0,
+        });
+        bounds_group.addLayer(layer_LotsDTT60098ha_4);
+        map.addLayer(layer_LotsDTT60098ha_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Lots DTT (600,98 ha)<br /><table><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Amandier13789ha0.png" /></td><td>Amandier (137,89 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Arbequina12762ha1.png" /></td><td>Arbequina (127,62 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Arbosana5113ha2.png" /></td><td>Arbosana (51,13 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Bouffegous5925ha3.png" /></td><td>Bouffegous (59,25 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Koroneiki2538ha4.png" /></td><td>Koroneiki (25,38 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Males514ha5.png" /></td><td>Males (5,14 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Mejhoul13684ha6.png" /></td><td>Mejhoul (136,84 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Nejda078ha7.png" /></td><td>Nejda (0,78 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/LotsDTT60098ha_4_Notplanted165ha8.png" /></td><td>Not planted (1,65 ha)</td></tr></table>': layer_LotsDTT60098ha_4,'Infrastructure (55,28 ha)<br /><table><tr><td style="text-align: center;"><img src="legend/Infrastructure5528ha_3_Reservoir742ha0.png" /></td><td>Reservoir (7,42 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/Infrastructure5528ha_3_Roads2996ha1.png" /></td><td>Roads (29,96 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/Infrastructure5528ha_3_Solarfield058ha2.png" /></td><td>Solar field (0,58 ha)</td></tr><tr><td style="text-align: center;"><img src="legend/Infrastructure5528ha_3_Undetermined1731ha3.png" /></td><td>Undetermined (17,31 ha)</td></tr></table>': layer_Infrastructure5528ha_3,'<img src="legend/Farmboundaries60093ha_2.png" /> Farm boundaries (600,93 ha)': layer_Farmboundaries60093ha_2,"ESRI Satellite": layer_ESRISatellite_1,"OpenTopoMap": layer_OpenTopoMap_0,}).addTo(map);
+        setBounds();
+        resetLabels([layer_LotsDTT60098ha_4]);
+        map.on("zoomend", function(){
+            resetLabels([layer_LotsDTT60098ha_4]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_LotsDTT60098ha_4]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_LotsDTT60098ha_4]);
+        });
+        </script>
+    </body>
+</html>
